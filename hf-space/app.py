@@ -34,10 +34,10 @@ OVERVIEW = """
 > 핀 매핑은 벤더·모델별 비공개. 현장 캘리브레이션 필요.
 
 ### 링크
-- 📦 [GitHub Repository](https://github.com/DJKang-IM/button-switch-module)
-- 📄 [제품 사양서](https://github.com/DJKang-IM/button-switch-module/blob/main/docs/PRODUCT_SPEC.md)
-- 🔧 [설치 가이드](https://github.com/DJKang-IM/button-switch-module/blob/main/docs/INSTALLATION.md)
-- ⚡ [Arduino 펌웨어](https://github.com/DJKang-IM/button-switch-module/blob/main/firmware/arduino/button_switch_module.ino)
+- 📦 [GitHub Repository](https://github.com/DJKang-IM/Button-Switch-Module)
+- 📄 [제품 사양서](https://github.com/DJKang-IM/Button-Switch-Module/blob/main/docs/PRODUCT_SPEC.md)
+- 🔧 [설치 가이드](https://github.com/DJKang-IM/Button-Switch-Module/blob/main/docs/INSTALLATION.md)
+- ⚡ [Arduino 펌웨어](https://github.com/DJKang-IM/Button-Switch-Module/blob/main/firmware/arduino/button_switch_module.ino)
 """
 
 SPEC_TABLE = """
@@ -121,10 +121,10 @@ with gr.Blocks(title="Button Switch Module", theme=gr.themes.Soft()) as demo:
     with gr.Tab("🔗 리소스"):
         gr.Markdown(
             """
-            - [GitHub — 소스 · 문서 · 펌웨어](https://github.com/DJKang-IM/button-switch-module)
-            - [제품 사양서 (PRODUCT_SPEC.md)](https://github.com/DJKang-IM/button-switch-module/blob/main/docs/PRODUCT_SPEC.md)
-            - [배선 가이드 (WIRING.md)](https://github.com/DJKang-IM/button-switch-module/blob/main/docs/WIRING.md)
-            - [벤더 호환성 (COMPATIBILITY.md)](https://github.com/DJKang-IM/button-switch-module/blob/main/docs/COMPATIBILITY.md)
+            - [GitHub — 소스 · 문서 · 펌웨어](https://github.com/DJKang-IM/Button-Switch-Module)
+            - [제품 사양서 (PRODUCT_SPEC.md)](https://github.com/DJKang-IM/Button-Switch-Module/blob/main/docs/PRODUCT_SPEC.md)
+            - [배선 가이드 (WIRING.md)](https://github.com/DJKang-IM/Button-Switch-Module/blob/main/docs/WIRING.md)
+            - [벤더 호환성 (COMPATIBILITY.md)](https://github.com/DJKang-IM/Button-Switch-Module/blob/main/docs/COMPATIBILITY.md)
             """
         )
 

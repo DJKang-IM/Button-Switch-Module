@@ -131,4 +131,4 @@ MIT License — [`LICENSE`](LICENSE)
 
 ## 문의
 
-GitHub Issues: [https://github.com/DJKang-IM/button-switch-module/issues](https://github.com/DJKang-IM/button-switch-module/issues)
+GitHub Issues: [https://github.com/DJKang-IM/Button-Switch-Module/issues](https://github.com/DJKang-IM/Button-Switch-Module/issues)
