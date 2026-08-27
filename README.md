@@ -1,5 +1,7 @@
 # Button Switch Module (BSM)
 
+Full corpus available under NDA for research collaboration / employment. Contact: drkangim@naver.com
+
 **Endoscope Freeze → Gateway Auto-Capture Module**
 
 Automatically captures PACS-ready images from the endoscope console Freeze action — no capture pedal required.
