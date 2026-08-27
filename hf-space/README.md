@@ -12,7 +12,7 @@ license: mit
 
 # Button Switch Module (BSM)
 
-내시경 Freeze → 게이트웨이 자동 캡처 모듈
+Endoscope Freeze → Gateway auto-capture module
 
 - GitHub: [DJKang-IM/Button-Switch-Module](https://github.com/DJKang-IM/Button-Switch-Module)
-- 제품 사양 · 설치 가이드 · Arduino 펌웨어 포함
+- Includes product spec, installation guide, and Arduino firmware

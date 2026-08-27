@@ -1,160 +1,160 @@
-# Button Switch Module — 제품 사양서
+# Button Switch Module — Product Specification
 
-**문서 버전:** 1.0  
-**최종 수정:** 2026-08-27  
-**제품명:** Button Switch Module (BSM)  
-**분류:** 내시경 게이트웨이 캡처 자동화 하드웨어
-
----
-
-## 1. 개요
-
-Button Switch Module(BSM)은 내시경 콘솔의 외부 기록 트리거(short) 신호를 감지하여, 게이트웨이 PC에 캡처 단축키(`F11`)를 USB HID로 자동 전송하는 신호 변환 모듈입니다.
-
-기존 페달 기반 캡처 방식을 대체하여, 의사의 Freeze 조작만으로 PACS 저장용 이미지 캡처를 수행합니다.
+**Document Version:** 1.0  
+**Last Updated:** 2026-08-27  
+**Product Name:** Button Switch Module (BSM)  
+**Category:** Endoscopy gateway capture automation hardware
 
 ---
 
-## 2. 적용 분야
+## 1. Overview
 
-- ERCP / EGD / Colonoscopy 등 소화기 내시경 검사실
-- Olympus · Fujifilm · Pentax 내시경 콘솔 + 게이트웨이(PACS 연동) 환경
-- 페달 캡처로 인한 자세 불안정 · 허리 부담 개선이 필요한 검사실
+The Button Switch Module (BSM) is a signal conversion device that detects the endoscope console's external recorder trigger (short) signal and automatically sends a capture hotkey (`F11`) to the gateway PC via USB HID.
 
----
-
-## 3. 기능 사양
-
-| 항목 | 사양 |
-|------|------|
-| 입력 | 내시경 콘솔 short 신호 (접점, dry contact) |
-| 입력 채널 | 1ch (확장 시 최대 4ch) |
-| 절연 | PC816 photocoupler, 입력–출력 간 ≥ 2.5 kVrms |
-| MCU | ATmega32U4 (Arduino Pro Micro / Leonardo 호환) |
-| 출력 | USB HID Keyboard — `F11` 키 press + release |
-| 디바운스 | 50 ms (펌웨어 설정 가능) |
-| 응답 지연 | Short 감지 → 키 전송 ≤ 100 ms |
-| 전원 | USB 5 V (게이트웨이 PC 버스 전원) |
-| 소비 전류 | ≤ 50 mA (typical) |
-| 동작 온도 | 10 – 40 °C |
-| 크기 (본체) | 60 × 40 × 20 mm (케이스 포함, 예상) |
-| 무게 | ≤ 80 g |
+It replaces pedal-based capture, allowing physicians to capture PACS-ready images with a Freeze action alone.
 
 ---
 
-## 4. 동작 시퀀스
+## 2. Applications
+
+- GI endoscopy suites (ERCP, EGD, colonoscopy)
+- Olympus · Fujifilm · Pentax console + gateway (PACS-integrated) environments
+- Suites where pedal capture causes posture instability or back strain
+
+---
+
+## 3. Functional Specifications
+
+| Parameter | Specification |
+|-----------|---------------|
+| Input | Endoscope console short signal (dry contact) |
+| Input channels | 1ch (expandable to 4ch) |
+| Isolation | PC816 photocoupler, ≥ 2.5 kVrms input–output |
+| MCU | ATmega32U4 (Arduino Pro Micro / Leonardo compatible) |
+| Output | USB HID Keyboard — `F11` press + release |
+| Debounce | 50 ms (configurable in firmware) |
+| Response latency | Short detection → key injection ≤ 100 ms |
+| Power | USB 5 V (gateway PC bus power) |
+| Current draw | ≤ 50 mA (typical) |
+| Operating temperature | 10 – 40 °C |
+| Dimensions (unit) | 60 × 40 × 20 mm (with enclosure, estimated) |
+| Weight | ≤ 80 g |
+
+---
+
+## 4. Operation Sequence
 
 ```
-[1] 의사: 내시경 Freeze 버튼 누름
+[1] Physician: presses endoscope Freeze button
          ↓
-[2] 내시경 콘솔: 모니터 화면 freeze + (설정된 동작 시) short 신호 출력
+[2] Console: monitor freeze + (when configured) short signal output
          ↓
-[3] PC816: short 신호를 절연하여 Arduino GPIO로 전달
+[3] PC816: isolates short signal, passes to Arduino GPIO
          ↓
-[4] Arduino: falling/rising edge 감지 → debounce → F11 HID 전송
+[4] Arduino: edge detect → debounce → F11 HID injection
          ↓
-[5] 게이트웨이 SW: F11 수신 → 현재 화면 캡처 → PACS 저장
+[5] Gateway SW: receives F11 → captures frame → stores to PACS
 ```
 
-### 기존 페달 방식과 비교
+### Comparison with Pedal Capture
 
-| | 페달 방식 | BSM |
-|---|-----------|-----|
-| 조작 | Freeze + 페달 | Freeze only |
-| 자세 안정성 | 낮음 (발 조작) | 높음 (손만 사용) |
-| 캡처 타이밍 | Freeze 후 별도 | Freeze와 동시 |
-| 설치 | USB HID 페달 | BSM + short 배선 |
-| 내시경 개조 | 없음 | 없음 (신호 탭만) |
+| | Pedal | BSM |
+|---|-------|-----|
+| Operation | Freeze + pedal | Freeze only |
+| Posture stability | Low (foot operation) | High (hands only) |
+| Capture timing | Separate step after freeze | Simultaneous with freeze |
+| Installation | USB HID pedal | BSM + short wiring |
+| Console modification | None | None (signal tap only) |
 
 ---
 
-## 5. 하드웨어 블록 다이어그램
+## 5. Hardware Block Diagram
 
 ```
 ┌─────────────────┐     short      ┌──────────┐    GPIO    ┌──────────────┐
-│  내시경 콘솔     │ ──────────────►│  PC816   │──────────►│   Arduino    │
-│  (Olympus/      │   (dry contact) │ Optocoupl│           │  ATmega32U4  │
-│   Fujifilm/     │                 │   er     │           │              │
-│   Pentax)       │                 └──────────┘           └──────┬───────┘
-└─────────────────┘                                               │ USB HID
-                                                                  ▼
-                                                         ┌──────────────┐
-                                                         │  게이트웨이   │
-                                                         │  PC (F11)    │
-                                                         │  → PACS      │
-                                                         └──────────────┘
+│ Endoscope       │ ──────────────►│  PC816   │──────────►│   Arduino    │
+│ Console         │   (dry contact) │ Optocoupl│           │  ATmega32U4  │
+│ (Olympus/       │                 │   er     │           │              │
+│  Fujifilm/       │                 └──────────┘           └──────┬───────┘
+│  Pentax)         │                                               │ USB HID
+└─────────────────┘                                                ▼
+                                                          ┌──────────────┐
+                                                          │   Gateway    │
+                                                          │  PC (F11)    │
+                                                          │  → PACS      │
+                                                          └──────────────┘
 ```
 
 ---
 
-## 6. 핀 매핑 (비공개)
+## 6. Pin Mapping (Proprietary)
 
-내시경 콘솔의 short 출력 핀은 **벤더 · 모델 · 콘솔 펌웨어 버전**에 따라 다릅니다.
+Console short output pins vary by **vendor, model, and firmware version**.
 
-| 벤더 | 트리거 동작 | 핀 위치 |
-|------|-------------|---------|
-| Olympus | Release / Print / DVR Start | 🔒 비공개 |
-| Fujifilm | Release / Print | 🔒 비공개 |
-| Pentax | External Record | 🔒 비공개 |
+| Vendor | Trigger Action | Pin Location |
+|--------|----------------|--------------|
+| Olympus | Release / Print / DVR Start | 🔒 Proprietary |
+| Fujifilm | Release / Print | 🔒 Proprietary |
+| Pentax | External Record | 🔒 Proprietary |
 
-> 핀 매핑 정보는 현장 설치 시 제공됩니다. 본 공개 저장소에는 포함되지 않습니다.
-
----
-
-## 7. 펌웨어
-
-- **파일:** `firmware/arduino/button_switch_module.ino`
-- **보드:** Arduino Leonardo / Pro Micro (ATmega32U4, native USB)
-- **라이브러리:** `Keyboard.h` (Arduino built-in)
-- **설정 가능 파라미터:**
-  - `CAPTURE_KEY` — 캡처 단축키 (기본 `F11`)
-  - `DEBOUNCE_MS` — 디바운스 시간 (기본 50 ms)
-  - `INPUT_PIN` — short 감지 GPIO (기본 pin 2)
-  - `ACTIVE_LOW` — short 극성 (기본 true)
+> Pin mapping is provided during on-site installation. Not included in this public repository.
 
 ---
 
-## 8. 설치 요구사항
+## 7. Firmware
 
-### 게이트웨이 PC
+- **File:** `firmware/arduino/button_switch_module.ino`
+- **Board:** Arduino Leonardo / Pro Micro (ATmega32U4, native USB)
+- **Library:** `Keyboard.h` (Arduino built-in)
+- **Configurable parameters:**
+  - `CAPTURE_KEY` — capture hotkey (default `F11`)
+  - `DEBOUNCE_MS` — debounce interval (default 50 ms)
+  - `INPUT_PIN` — short detection GPIO (default pin 2)
+  - `ACTIVE_LOW` — short polarity (default true)
+
+---
+
+## 8. Installation Requirements
+
+### Gateway PC
 - Windows 10/11 (64-bit)
-- USB 2.0 이상 포트 1개
-- 게이트웨이 캡처 단축키: `F11` (또는 펌웨어에서 변경)
+- One USB 2.0+ port
+- Gateway capture hotkey: `F11` (or modify firmware)
 
-### 내시경 콘솔
-- 외부 기록(short) 출력 단자 보유
-- 콘솔 서비스 매뉴얼상 "External Recorder" / "Print" / "DVR" 트리거 핀 확인
+### Endoscope Console
+- External recorder (short) output terminals
+- Confirm "External Recorder" / "Print" / "DVR" trigger pins in service manual
 
-### 도구
-- Arduino IDE 2.x 또는 PlatformIO
-- 멀티미터 (short 핀 확인용)
-- 벤더별 신호 케이블 (현장 제공)
-
----
-
-## 9. 품질 · 안전
-
-| 항목 | 내용 |
-|------|------|
-| 전기적 절연 | PC816 photocoupler, 내시경 전원계와 MCU 완전 분리 |
-| Fail-safe | Short 미감지 시 기존 페달 방식 병행 사용 가능 |
-| EMI | 케이블 차폐 권장, Arduino USB ferrite bead 권장 |
-| 내시경 영향 | 신호 탭(tap)만 수행, 콘솔 펌웨어 · 영상 경로 무변경 |
+### Tools
+- Arduino IDE 2.x or PlatformIO
+- Multimeter (for short pin verification)
+- Vendor-specific signal cable (provided on-site)
 
 ---
 
-## 10. 제품 변형 (로드맵)
+## 9. Quality & Safety
 
-| 모델 | 설명 | 상태 |
-|------|------|------|
-| BSM-1 | Single channel, F11 고정 | ✅ 현재 |
-| BSM-4 | 4ch 입력, 다중 트리거 | 🔜 계획 |
-| BSM-PRO | OLED 상태 표시, 캡처 로그 | 🔜 계획 |
+| Item | Details |
+|------|---------|
+| Galvanic isolation | PC816 photocoupler; endoscope and MCU fully isolated |
+| Fail-safe | Pedal capture can remain as backup if short is not detected |
+| EMI | Shielded cables recommended; ferrite bead on Arduino USB recommended |
+| Console impact | Signal tap only; no firmware or video path modification |
 
 ---
 
-## 11. 개정 이력
+## 10. Product Variants (Roadmap)
 
-| 버전 | 날짜 | 내용 |
-|------|------|------|
-| 1.0 | 2026-08-27 | 최초 공개 |
+| Model | Description | Status |
+|-------|-------------|--------|
+| BSM-1 | Single channel, fixed F11 | ✅ Current |
+| BSM-4 | 4ch input, multi-trigger | 🔜 Planned |
+| BSM-PRO | OLED status display, capture log | 🔜 Planned |
+
+---
+
+## 11. Revision History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.0 | 2026-08-27 | Initial public release |
