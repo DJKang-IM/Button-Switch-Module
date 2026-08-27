@@ -1,7 +1,11 @@
 # Button Switch Module (BSM)
 
-Original data containing identifiable information cannot be released publicly without IRB approval.
 
+
+
+Full corpus available under NDA for research collaboration / employment. Contact: drkangim@naver.com
+
+Original data containing identifiable information cannot be released publicly without IRB approval.
 
 **Endoscope Freeze → Gateway Auto-Capture Module**
 
